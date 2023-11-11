@@ -1,18 +1,45 @@
-import React from 'react'
+import React from "react";
+import { motion } from "framer-motion";
 
-import { motion } from 'framer-motion';
+// css
+import "./ButtonStyle.css"; 
 
-const Button = () => {
-  return (
-    <div className='h-[40px] w-[100px] rounded-[20px] cursor-pointer overflow-hidden'>
-        <div className='w-full h-full flex justify-center items-center uppercase'>
-            <p>Menu</p>
-        </div>
-        <div className='w-full h-full bg-black text-white flex justify-center items-center absolute top-[100%] uppercase'>
-            <p>Close</p>
-        </div>
-    </div>
-  )
+interface PerspectiveTextProps {
+    label: string,
 }
 
-export default Button
+const PerspectiveText: React.FC<PerspectiveTextProps> = ({label}) => {
+    return(
+        <div className="perspectiveText">
+            <p>{label}</p>
+            <p>{label}</p>
+        </div>
+    )
+}
+
+interface ButtonProps {
+  isActive: boolean;
+  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Button: React.FC<ButtonProps> = ({ isActive, setIsActive }) => {
+  return (
+    <div
+      onClick={() => {
+        setIsActive((prevIsActive) => !prevIsActive);
+      }}
+      className="button"
+    >
+      <motion.div animate={{top: isActive ? "-100%" : "0"}} transition={{duration: 0.5, ease: [0.76, 0, 0.24, 1],}} className="slider">
+        <div className="w-full h-full  bg-[#7ED7E6]">
+          <PerspectiveText label="Menu" />
+        </div>
+        <div className="w-full h-full bg-black text-white absolute top-[100%]">
+          <PerspectiveText label="Close" />
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+export default Button;
